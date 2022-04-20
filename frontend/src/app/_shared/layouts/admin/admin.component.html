@@ -1,0 +1,37 @@
+<div class="main-container">
+    <div class="alert alert-app-level alert-info">
+        <div class="alert-items">
+            <div class="alert-item static">
+                <div class="alert-icon-wrapper">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <header class="header header-6">
+        <div class="branding">
+            <a href="javascript:void(0)">
+                <cds-icon shape="calendar"></cds-icon>
+                <span class="title">Notify</span>
+            </a>
+        </div>
+        <div class="settings flex jcc aic mh1">
+            <cds-button  size="sm" status="neutral" (click)="logout()">
+                <cds-icon shape="logout"></cds-icon> Cerrar Sesion
+            </cds-button>
+        </div>
+    </header>
+
+    <div class="content-container">
+        <clr-vertical-nav>
+            <a *ngFor="let item of menuItems" clrVerticalNavLink [routerLink]="item.link" routerLinkActive="active">
+                <cds-icon clrVerticalNavIcon [attr.shape]="item.icon"></cds-icon>
+                {{item.label}}
+            </a>
+        </clr-vertical-nav>
+        <div class="content-area">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+
+</div>

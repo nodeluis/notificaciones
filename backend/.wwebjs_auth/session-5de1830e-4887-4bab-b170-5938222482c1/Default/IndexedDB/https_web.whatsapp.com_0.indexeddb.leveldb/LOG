@@ -1,0 +1,7 @@
+2022/04/08-14:19:02.847 3420 Reusing MANIFEST D:\Projects\GitLab\Javascript\Notificator\backend\.wwebjs_auth\session-5de1830e-4887-4bab-b170-5938222482c1\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2022/04/08-14:19:02.848 3420 Recovering log #364
+2022/04/08-14:19:02.864 3420 Reusing old log D:\Projects\GitLab\Javascript\Notificator\backend\.wwebjs_auth\session-5de1830e-4887-4bab-b170-5938222482c1\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/000364.log 
+2022/04/08-14:19:23.242 35d4 Compacting 1@1 + 2@2 files
+2022/04/08-14:19:23.715 35d4 Generated table #380@1: 89582 keys, 1970100 bytes
+2022/04/08-14:19:23.715 35d4 Compacted 1@1 + 2@2 files => 1970100 bytes
+2022/04/08-14:19:23.728 35d4 compacted to: files[ 0 0 12 0 0 0 0 ]

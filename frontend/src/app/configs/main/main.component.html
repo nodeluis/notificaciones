@@ -1,0 +1,46 @@
+<app-title  title="Configuraciones" subtitle="Configuraciones del sistema" [solid]="true" icon="cog"></app-title>
+
+<div class="card">
+    <div class="card-header">
+        Configuraciones del sistema
+    </div>
+    <div class="card-block">
+        <div class="card-text clr-row ">
+            <div class="clr-col-5" [formGroup]="configForm">
+
+                <cds-time class="mt1">
+                    <label>Hora</label>
+                    <input type="time" formControlName="time" />
+                    <cds-control-message>{{configs.timeDescription}}</cds-control-message>
+                </cds-time>
+
+                <cds-input class="mt1">
+                    <label>Dias antes</label>
+                    <input type="number" formControlName="daysBefore" />
+                    <cds-control-message>{{configs.daysBeforeDescription}}</cds-control-message>
+                </cds-input>
+
+                <cds-toggle-group layout="horizontal" class="mt1">
+                    <label>Notificar fin de semana</label>
+                    <cds-toggle>
+                        <label>{{configForm.controls['weekend']? "SI": "NO"}}</label>
+                        <input type="checkbox" formControlName="weekend" />
+                    </cds-toggle>
+
+                    <cds-control-message>{{configs.weekendDescription}}</cds-control-message>
+                </cds-toggle-group>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-footer" *ngIf="editable; else elseBlock">
+        <button class="btn btn-sm" (click)="onCancel()">Cancelar</button>
+        <button class="btn btn-sm" (click)="submitForm()">Guardar</button>
+    </div>
+
+    <ng-template #elseBlock>
+        <div class="card-footer" >
+            <button class="btn btn-sm " (click)="onEdit()">Editar</button>
+        </div>
+    </ng-template>
+</div>

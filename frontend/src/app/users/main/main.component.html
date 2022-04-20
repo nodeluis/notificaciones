@@ -1,0 +1,116 @@
+<app-title  title="Usuarios" subtitle="Listado de usuarios registrados" [solid]="true" icon="users"    ></app-title>
+
+<div cds-layout="horizontal" class="mt1">
+    <cds-button (click)="onNewBtnClick()">
+        <cds-icon shape="plus"></cds-icon> Nuevo
+    </cds-button>
+</div>
+
+<clr-datagrid>
+    <clr-dg-placeholder>No se han encontrado resultados!</clr-dg-placeholder>
+
+    <clr-dg-column>ID</clr-dg-column>
+    <clr-dg-column>Usuario</clr-dg-column>
+    <clr-dg-column>Nombre</clr-dg-column>
+    <clr-dg-column>Telefono</clr-dg-column>
+    <clr-dg-column>Roles</clr-dg-column>
+    <clr-dg-column></clr-dg-column>
+
+    <clr-dg-row *clrDgItems="let user of users">
+        <clr-dg-cell>{{user.id}}</clr-dg-cell>
+        <clr-dg-cell>{{user.username}}</clr-dg-cell>
+        <clr-dg-cell>{{user.fullname}}</clr-dg-cell>
+        <clr-dg-cell>{{user.phone}}</clr-dg-cell>
+        <clr-dg-cell>{{user.roles}}</clr-dg-cell>
+        <clr-dg-cell class="flex jcfe">
+            <div class="btn-group btn-primary btn-icon">
+                <button class="btn btn-sm">
+                    <cds-icon shape="eye" title="Check"></cds-icon>
+                </button>
+                <button class="btn btn-sm">
+                    <cds-icon shape="pencil" title="home"></cds-icon>
+                </button>
+            </div>
+        </clr-dg-cell>
+    </clr-dg-row>
+
+    <clr-dg-footer>
+        <clr-dg-pagination #pagination [clrDgPageSize]="10">
+            <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">Items por pagina</clr-dg-page-size>
+            {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} of {{pagination.totalItems}} Items
+        </clr-dg-pagination>
+    </clr-dg-footer>
+</clr-datagrid>
+
+<clr-modal [(clrModalOpen)]="userModalIsOpen">
+<!--<clr-modal [clrModalOpen]="true">-->
+    <h3 class="modal-title">{{modalTitle()}}</h3>
+    <div class="modal-body">
+        <div class="clr-row" [formGroup]="form">
+            <cds-form-group layout="vertical-inline" class="clr-col-12 mb1 mt1">
+                <cds-input >
+                    <label>Nombre Completo</label>
+                    <input placeholder="Nombre completo" formControlName="fullname" required />
+                </cds-input>
+            </cds-form-group>
+
+            <cds-form-group layout="vertical-inline" class="clr-col-12 mb1">
+                <cds-input >
+                    <label>Telefono</label>
+                    <input placeholder="Telefono"  formControlName="phone" required />
+                </cds-input>
+            </cds-form-group>
+
+            <cds-form-group layout="vertical-inline" class="clr-col-12 mb1">
+                <cds-input >
+                    <label>Usuario</label>
+                    <input placeholder="Usuario" formControlName="username" required />
+                </cds-input>
+            </cds-form-group>
+
+            <cds-form-group layout="vertical-inline" class="clr-col-6 mb1">
+                <cds-input >
+                    <label>Contraseña</label>
+                    <input placeholder="Contraseña" formControlName="password" required />
+                </cds-input>
+            </cds-form-group>
+
+            <cds-form-group layout="vertical-inline" class="clr-col-6 mb1">
+                <cds-input >
+                    <label>Repetir Contraseña</label>
+                    <input placeholder="Repetir" formControlName="passwordConfirm" required />
+                </cds-input>
+            </cds-form-group>
+
+            <cds-checkbox-group layout="vertical-inline" class="clr-col-12 mb2">
+                <label>Roles</label>
+                <cds-toggle class="mr2">
+                    <label>SUPER</label>
+                    <input type="checkbox" value="SUPER_ADMIN" (change)="onRoleChange($event)"/>
+                </cds-toggle>
+
+                <cds-toggle class="mr2">
+                    <label>ADMIN</label>
+                    <input type="checkbox" value="ADMIN" (change)="onRoleChange($event)"/>
+                </cds-toggle>
+
+                <cds-toggle>
+                    <label>REGULAR</label>
+                    <input type="checkbox" value="REGULAR" (change)="onRoleChange($event)"/>
+                </cds-toggle>
+
+            </cds-checkbox-group>
+
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="userModalIsOpen = false">
+            <cds-icon shape="times"></cds-icon>
+            Cancelar
+        </button>
+        <button type="button" class="btn btn-primary" (click)="submitForm()">
+            <cds-icon shape="plus"></cds-icon>
+            Guardar
+        </button>
+    </div>
+</clr-modal>

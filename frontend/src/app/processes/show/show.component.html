@@ -1,0 +1,362 @@
+<div class="card">
+    <div class="card-block">
+        <div class="card-title" style="margin-bottom: 2px">
+            {{currentProcess.name}}
+        </div>
+        <div class="card-title" style="font-size: 1em">
+            {{currentProcess.cuceCode}}
+        </div>
+        <div class="card-text">
+            <span class="label label-success">
+            {{currentProcess.type.name}}
+            </span>
+            <span class="label label-success">
+            {{currentProcess.mode.initials}} - {{currentProcess.mode.name}}
+            </span>
+        </div>
+    </div>
+</div>
+
+<clr-tabs>
+    <clr-tab>
+        <button clrTabLink>
+            Actividades <span class="badge">{{activities.length}}</span>
+        </button>
+        <clr-tab-content *clrIfActive>
+            <div cds-layout="horizontal" class="mt1">
+                <cds-button size="sm" (click)="onNewActivity()">
+                    <cds-icon shape="plus"></cds-icon> Nueva actividad
+                </cds-button>
+            </div>
+            <clr-datagrid>
+                <clr-dg-placeholder>No se han encontrado resultados!</clr-dg-placeholder>
+
+                <clr-dg-column>Titulo</clr-dg-column>
+                <clr-dg-column>Descripcion</clr-dg-column>
+                <clr-dg-column>Fecha limite</clr-dg-column>
+                <clr-dg-column>Realizado</clr-dg-column>
+                <clr-dg-column></clr-dg-column>
+
+                <clr-dg-row *clrDgItems="let activity of activities">
+                    <clr-dg-cell>{{activity.title}}</clr-dg-cell>
+                    <clr-dg-cell>{{activity.description}}</clr-dg-cell>
+                    <clr-dg-cell>{{activity.limitDate | date: 'dd/MM/YYYY'}}</clr-dg-cell>
+                    <clr-dg-cell>
+                        <cds-checkbox>
+                            <label>{{activity.done? 'Realizado': 'No realizado'}}</label>
+                            <input type="checkbox" [checked]="activity.done" disabled />
+                        </cds-checkbox>
+                    </clr-dg-cell>
+                    <clr-dg-cell class="flex jcfe">
+                        <div class="btn-group btn-primary btn-icon">
+                            <button class="btn btn-sm">
+                                <cds-icon shape="eye" title="Ver" ></cds-icon>
+                            </button>
+                            <button class="btn btn-sm">
+                                <cds-icon shape="pencil" title="home"></cds-icon>
+                            </button>
+                        </div>
+                    </clr-dg-cell>
+                </clr-dg-row>
+
+                <clr-dg-footer>
+                    <clr-dg-pagination #pagination [clrDgPageSize]="10">
+                        <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">Items por pagina</clr-dg-page-size>
+                        {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} of {{pagination.totalItems}} Items
+                    </clr-dg-pagination>
+                </clr-dg-footer>
+            </clr-datagrid>
+        </clr-tab-content>
+    </clr-tab>
+
+    <clr-tab>
+        <button clrTabLink>
+            Acciones <span class="badge">{{processActions.length}}</span>
+        </button>
+        <clr-tab-content *clrIfActive>
+            <div cds-layout="horizontal" class="mt1">
+                <cds-button size="sm" (click)="onNewAction()">
+                    <cds-icon shape="plus"></cds-icon> Vincular accion
+                </cds-button>
+            </div>
+            <clr-datagrid>
+                <clr-dg-placeholder>No se han encontrado resultados!</clr-dg-placeholder>
+
+                <clr-dg-column>Titulo</clr-dg-column>
+                <clr-dg-column>Descripcion</clr-dg-column>
+                <clr-dg-column>Fecha limite</clr-dg-column>
+                <clr-dg-column>Realizado</clr-dg-column>
+                <clr-dg-column></clr-dg-column>
+
+                <clr-dg-row *clrDgItems="let actions of processActions">
+                    <clr-dg-cell>{{actions.action.name}}</clr-dg-cell>
+                    <clr-dg-cell>{{actions.action.description}}</clr-dg-cell>
+                    <clr-dg-cell>{{actions.limitDate | date: 'dd/MM/YYYY'}}</clr-dg-cell>
+                    <clr-dg-cell>
+                        <cds-checkbox>
+                            <label>{{true? 'Realizado': 'No realizado'}}</label>
+                            <input type="checkbox" [checked]="actions.done" disabled />
+                        </cds-checkbox>
+                    </clr-dg-cell>
+                    <clr-dg-cell class="flex jcfe">
+                        <div class="btn-group btn-primary btn-icon">
+                            <button class="btn btn-sm">
+                                <cds-icon shape="eye" title="Ver" ></cds-icon>
+                            </button>
+                            <button class="btn btn-sm">
+                                <cds-icon shape="pencil" title="home"></cds-icon>
+                            </button>
+                        </div>
+                    </clr-dg-cell>
+                </clr-dg-row>
+
+                <clr-dg-footer>
+                    <clr-dg-pagination #pagination [clrDgPageSize]="10">
+                        <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">Items por pagina</clr-dg-page-size>
+                        {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} of {{pagination.totalItems}} Items
+                    </clr-dg-pagination>
+                </clr-dg-footer>
+            </clr-datagrid>
+        </clr-tab-content>
+    </clr-tab>
+
+    <clr-tab>
+        <button clrTabLink>Usuarios</button>
+        <clr-tab-content >
+            <div cds-layout="horizontal" class="mt1">
+                <cds-button size="sm" >
+                    <cds-icon shape="plus"></cds-icon> Nuevo
+                </cds-button>
+            </div>
+            <clr-datagrid>
+                <clr-dg-placeholder>No se han encontrado resultados!</clr-dg-placeholder>
+
+                <clr-dg-column>User</clr-dg-column>
+                <clr-dg-column>nom</clr-dg-column>
+                <clr-dg-column>tipo</clr-dg-column>
+                <clr-dg-column></clr-dg-column>
+
+                <clr-dg-row *clrDgItems="let process of []">
+                    <clr-dg-cell></clr-dg-cell>
+                    <clr-dg-cell></clr-dg-cell>
+                    <clr-dg-cell></clr-dg-cell>
+                    <clr-dg-cell class="flex jcfe">
+                        <div class="btn-group btn-primary btn-icon">
+                            <button class="btn btn-sm">
+                                <cds-icon shape="eye" title="Ver" ></cds-icon>
+                            </button>
+                            <button class="btn btn-sm">
+                                <cds-icon shape="pencil" title="home"></cds-icon>
+                            </button>
+                        </div>
+                    </clr-dg-cell>
+                </clr-dg-row>
+
+                <clr-dg-footer>
+                    <clr-dg-pagination #pagination [clrDgPageSize]="10">
+                        <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">Items por pagina</clr-dg-page-size>
+                        {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} of {{pagination.totalItems}} Items
+                    </clr-dg-pagination>
+                </clr-dg-footer>
+            </clr-datagrid>
+        </clr-tab-content>
+    </clr-tab>
+    <clr-tab>
+        <button clrTabLink>
+            Contactos <span class="badge">{{contacts.length}}</span>
+        </button>
+        <clr-tab-content >
+            <div cds-layout="horizontal" class="mt1">
+                <cds-button size="sm" (click)="onNewContact()">
+                    <cds-icon shape="plus"></cds-icon> Nuevo contacto
+                </cds-button>
+            </div>
+            <clr-datagrid>
+                <clr-dg-placeholder>No se han encontrado resultados!</clr-dg-placeholder>
+
+                <clr-dg-column>Nombre</clr-dg-column>
+                <clr-dg-column>Cargo</clr-dg-column>
+                <clr-dg-column>Telefono</clr-dg-column>
+                <clr-dg-column>Notificar</clr-dg-column>
+                <clr-dg-column></clr-dg-column>
+
+                <clr-dg-row *clrDgItems="let contact of contacts">
+                    <clr-dg-cell>{{contact.name}}</clr-dg-cell>
+                    <clr-dg-cell>{{contact.position}}</clr-dg-cell>
+                    <clr-dg-cell>{{contact.phone}}</clr-dg-cell>
+                    <clr-dg-cell>
+                        <cds-checkbox>
+                            <label>{{contact.notify? 'Notificar': 'No notificar'}}</label>
+                            <input type="checkbox" [checked]="contact.notify" disabled />
+                        </cds-checkbox>
+                    </clr-dg-cell>
+                    <clr-dg-cell class="flex jcfe">
+                        <div class="btn-group btn-primary btn-icon">
+                            <button class="btn btn-sm">
+                                <cds-icon shape="eye" title="Ver" ></cds-icon>
+                            </button>
+                            <button class="btn btn-sm">
+                                <cds-icon shape="pencil" title="home"></cds-icon>
+                            </button>
+                        </div>
+                    </clr-dg-cell>
+                </clr-dg-row>
+
+                <clr-dg-footer>
+                    <clr-dg-pagination #pagination [clrDgPageSize]="10">
+                        <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">Items por pagina</clr-dg-page-size>
+                        {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} of {{pagination.totalItems}} Items
+                    </clr-dg-pagination>
+                </clr-dg-footer>
+            </clr-datagrid>
+        </clr-tab-content>
+    </clr-tab>
+</clr-tabs>
+
+<clr-modal [(clrModalOpen)]="activityModalIsOpen">
+    <!--<clr-modal [clrModalOpen]="true">-->
+    <h3 class="modal-title">{{selectedActivity.titleForModal()}}</h3>
+    <div class="modal-body">
+        <div class="clr-row" [formGroup]="activityForm">
+
+            <cds-form-group layout="vertical-inline" class="clr-col-12 mt1 mb1">
+                <cds-input >
+                    <label>Titulo</label>
+                    <input formControlName="title" required />
+                </cds-input>
+            </cds-form-group>
+
+            <cds-form-group layout="vertical-inline" class="clr-col-12 mb1">
+                <cds-textarea>
+                    <label>Descripcion</label>
+                    <textarea formControlName="description" id="textArea"></textarea>
+                </cds-textarea>
+            </cds-form-group>
+
+            <clr-date-container class="clr-col-12 mb1">
+                <label>Fecha limite</label>
+                <input type="date" clrDate name="demo" formControlName="limitDate" placeholder="DD/MM/AAAA"/>
+            </clr-date-container>
+
+            <cds-form-group  class="clr-col-12 mb1">
+                <cds-toggle-group layout="vertical-inline">
+                    <label>Realizado</label>
+                    <cds-toggle>
+                        <label>SI/NO</label>
+                        <input type="checkbox" formControlName="done"/>
+                    </cds-toggle>
+                </cds-toggle-group>
+            </cds-form-group>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="activityModalIsOpen = false">
+            <cds-icon shape="times"></cds-icon>
+            Cancelar
+        </button>
+        <button type="button" class="btn btn-primary" (click)="submitActivityForm()">
+            <cds-icon shape="plus"></cds-icon>
+            Guardar
+        </button>
+    </div>
+</clr-modal>
+
+
+<clr-modal [(clrModalOpen)]="actionModalIsOpen">
+    <!--<clr-modal [clrModalOpen]="true">-->
+    <h3 class="modal-title">Vincular acciones</h3>
+    <div class="modal-body">
+        <div class="clr-row" [formGroup]="actionForm">
+
+            <cds-select layout="vertical" class="clr-col-12 mt1 mb1" (change)="changeAction($event)">
+                <label>Accion</label>
+                <select formControlName="action" >
+                    <option *ngFor="let action of actionsForForm" [ngValue]="action.id">{{action.name}}</option>
+                </select>
+            </cds-select>
+
+            <cds-form-group layout="vertical-inline" class="clr-col-12 mb1">
+                <cds-textarea>
+                    <label>Descripcion</label>
+                    <textarea disabled>{{selectedAction.description}}</textarea>
+                </cds-textarea>
+            </cds-form-group>
+
+            <clr-date-container class="clr-col-12 mb1">
+                <label>Fecha limite</label>
+                <input type="date" clrDate name="demo" formControlName="limitDate" placeholder="DD/MM/AAAA"/>
+            </clr-date-container>
+
+            <cds-form-group  class="clr-col-12 mb1">
+                <cds-toggle-group layout="vertical-inline">
+                    <label>Realizado</label>
+                    <cds-toggle>
+                        <label>SI/NO</label>
+                        <input type="checkbox" formControlName="done"/>
+                    </cds-toggle>
+                </cds-toggle-group>
+            </cds-form-group>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="actionModalIsOpen = false">
+            <cds-icon shape="times"></cds-icon>
+            Cancelar
+        </button>
+        <button type="button" class="btn btn-primary" (click)="submitActionForm()">
+            <cds-icon shape="plus"></cds-icon>
+            Guardar
+        </button>
+    </div>
+</clr-modal>
+
+
+<clr-modal [(clrModalOpen)]="contactModalIsOpen">
+    <!--<clr-modal [clrModalOpen]="true">-->
+    <h3 class="modal-title">{{selectedContact.titleForModal()}}</h3>
+    <div class="modal-body">
+        <div class="clr-row" [formGroup]="contactForm">
+
+            <cds-form-group layout="vertical-inline" class="clr-col-12 mt1 mb1">
+                <cds-input >
+                    <label>Nombre</label>
+                    <input formControlName="name" required />
+                </cds-input>
+            </cds-form-group>
+
+            <cds-form-group layout="vertical-inline" class="clr-col-12 mt1 mb1">
+                <cds-input >
+                    <label>Telefono</label>
+                    <input formControlName="phone" required />
+                </cds-input>
+            </cds-form-group>
+
+            <cds-form-group layout="vertical-inline" class="clr-col-12 mt1 mb1">
+                <cds-input >
+                    <label>Cargo</label>
+                    <input formControlName="position" required />
+                </cds-input>
+            </cds-form-group>
+
+            <cds-form-group  class="clr-col-12 mb1">
+                <cds-toggle-group layout="vertical-inline">
+                    <label>Notificar</label>
+                    <cds-toggle>
+                        <label>SI/NO</label>
+                        <input type="checkbox" formControlName="notify"/>
+                    </cds-toggle>
+                </cds-toggle-group>
+            </cds-form-group>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="contactModalIsOpen = false">
+            <cds-icon shape="times"></cds-icon>
+            Cancelar
+        </button>
+        <button type="button" class="btn btn-primary" (click)="submitContactForm()">
+            <cds-icon shape="plus"></cds-icon>
+            Guardar
+        </button>
+    </div>
+</clr-modal>

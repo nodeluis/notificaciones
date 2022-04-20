@@ -1,0 +1,119 @@
+<div cds-layout="horizontal" class="mt1">
+  <cds-button (click)="onNewBtnClick()">
+    <cds-icon shape="plus"></cds-icon> Nuevo
+  </cds-button>
+</div>
+
+<clr-datagrid>
+  <clr-dg-placeholder>No se han encontrado resultados!</clr-dg-placeholder>
+
+  <clr-dg-column>CUCE</clr-dg-column>
+  <clr-dg-column>Nombre</clr-dg-column>
+  <clr-dg-column>Tipo</clr-dg-column>
+  <clr-dg-column>Modalidad</clr-dg-column>
+  <clr-dg-column></clr-dg-column>
+
+  <clr-dg-row *clrDgItems="let process of processes">
+    <clr-dg-cell>{{process.cuceCode}}</clr-dg-cell>
+    <clr-dg-cell>{{process.name}}</clr-dg-cell>
+    <clr-dg-cell>{{process.type.name}}</clr-dg-cell>
+    <clr-dg-cell>
+      {{process.mode.initials}} - {{process.mode.name}}
+    </clr-dg-cell>
+    <clr-dg-cell class="flex jcfe">
+      <div class="btn-group btn-primary btn-icon">
+        <button class="btn btn-sm" [routerLink]="['/processes', process.id]">
+          <cds-icon shape="eye" title="Ver" ></cds-icon>
+        </button>
+        <button class="btn btn-sm">
+          <cds-icon shape="pencil" title="home"></cds-icon>
+        </button>
+      </div>
+    </clr-dg-cell>
+  </clr-dg-row>
+
+  <clr-dg-footer>
+    <clr-dg-pagination #pagination [clrDgPageSize]="10">
+      <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">Items por pagina</clr-dg-page-size>
+      {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} of {{pagination.totalItems}} Items
+    </clr-dg-pagination>
+  </clr-dg-footer>
+</clr-datagrid>
+
+<clr-modal [(clrModalOpen)]="processModalIsOpen">
+  <!--<clr-modal [clrModalOpen]="true">-->
+  <h3 class="modal-title">{{modalTitle()}}</h3>
+  <div class="modal-body">
+    <div class="clr-row" [formGroup]="form">
+
+      <cds-radio-group layout="vertical-inline" class="clr-col-12 mb1 mt1">
+        <label>Tipo</label>
+        <cds-radio class="mr2" *ngFor="let type of types">
+          <label>{{type.name}}</label>
+          <input type="radio" value="{{type.id}}" formControlName="type"/>
+        </cds-radio>
+      </cds-radio-group>
+
+      <cds-radio-group layout="vertical-inline" class="clr-col-12 mb1 mt1">
+        <label>Modalidad</label>
+        <cds-radio class="mr2" *ngFor="let mode of modes">
+          <label>{{mode.initials}}</label>
+          <input type="radio" value="{{mode.id}}" formControlName="mode"/>
+        </cds-radio>
+      </cds-radio-group>
+
+      <cds-form-group layout="vertical-inline" class="clr-col-12 mb1">
+        <cds-input >
+          <label>Nombre Proceso</label>
+          <input placeholder="Nombre completo" formControlName="name" required />
+        </cds-input>
+      </cds-form-group>
+
+      <cds-form-group layout="vertical-inline" class="clr-col-12 mb1">
+        <cds-input-group formArrayName="cuce">
+          <label>CUCE</label>
+          <cds-input>
+            <label>CUCE1</label>
+            <input formControlName="0" class="cuce-input" (keydown.-)="onCuceKey($event)"/>
+          </cds-input>
+          <cds-input>
+            <label>CUCE2</label>
+            <input formControlName="1"class="cuce-input"/>
+            <cds-control-action action="prefix" readonly> - </cds-control-action>
+          </cds-input>
+          <cds-input>
+            <label>CUCE3</label>
+            <input formControlName="2" class="cuce-input"/>
+            <cds-control-action action="prefix" readonly> - </cds-control-action>
+          </cds-input>
+          <cds-input>
+            <label>CUCE4</label>
+            <input formControlName="3" class="cuce-input"/>
+            <cds-control-action action="prefix" readonly> - </cds-control-action>
+          </cds-input>
+          <cds-input>
+            <label>CUCE5</label>
+            <input formControlName="4" class="cuce-input"/>
+            <cds-control-action action="prefix" readonly> - </cds-control-action>
+          </cds-input>
+          <cds-input>
+            <label>CUCE6</label>
+            <input formControlName="5" class="cuce-input"/>
+            <cds-control-action action="prefix" readonly> - </cds-control-action>
+          </cds-input>
+        </cds-input-group>
+      </cds-form-group>
+
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline" (click)="processModalIsOpen = false">
+      <cds-icon shape="times"></cds-icon>
+      Cancelar
+    </button>
+    <button type="button" class="btn btn-primary" (click)="submitForm()">
+      <cds-icon shape="plus"></cds-icon>
+      Guardar
+    </button>
+  </div>
+</clr-modal>
